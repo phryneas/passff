@@ -21,16 +21,23 @@ PassFF.Preferences = {
     },
 
     _init : function() {
-        let application = Cc["@mozilla.org/fuel/application;1"].getService(Ci.fuelIApplication);
-
-        let branch = Services.prefs.getDefaultBranch("extensions.passff.");
+        let defaultBranch = Services.prefs.getDefaultBranch("extensions.passff.");
+        let branch = Services.prefs.getBranch('extensions.passff.');
         for (let [key, val] in Iterator(PassFF.Preferences._params)) {
             switch (typeof val) {
-                case "boolean": branch.setBoolPref(key, val); break;
-                case "number": branch.setIntPref(key, val); break;
-                case "string": branch.setCharPref(key, val); break;
+                case "boolean":
+                    defaultBranch.setBoolPref(key, val);
+                    this._params[key] = branch.getBoolPref(key);
+                    break;
+                case "number":
+                    defaultBranch.setIntPref(key, val);
+                    this._params[key] = branch.getIntPref(key);
+                    break;
+                case "string":
+                    defaultBranch.setCharPref(key, val);
+                    this._params[key] = branch.getCharPref(key);
+                    break;
             }
-            this._params[key] = application.prefs.get("extensions.passff." + key);
         }
 
         this.setGpgAgentEnv();
@@ -52,22 +59,22 @@ PassFF.Preferences = {
         });
     },
 
-    get passwordInputNames() { return this._params.passwordInputNames.value.split(","); },
-    get loginInputNames()    { return this._params.loginInputNames.value.split(","); },
-    get loginFieldNames()    { return this._params.loginFieldNames.value.split(","); },
-    get passwordFieldNames() { return this._params.passwordFieldNames.value.split(",");},
-    get urlFieldNames()      { return this._params.urlFieldNames.value.split(",");},
-    get command()            { return this._params.command.value; },
-    get home()               { return (this._params.home.value.trim().length > 0 ? this._params.home.value : this._environment.get('HOME')); },
-    get storeDir()           { return (this._params.storeDir.value.trim().length > 0 ? this._params.storeDir.value : this._environment.get('PASSWORD_STORE_DIR')); },
-    get storeGit()           { return (this._params.storeGit.value.trim().length > 0 ? this._params.storeGit.value : this._environment.get('PASSWORD_STORE_GIT')); },
+    get passwordInputNames() { return this._params.passwordInputNames.split(","); },
+    get loginInputNames()    { return this._params.loginInputNames.split(","); },
+    get loginFieldNames()    { return this._params.loginFieldNames.split(","); },
+    get passwordFieldNames() { return this._params.passwordFieldNames.split(",");},
+    get urlFieldNames()      { return this._params.urlFieldNames.split(",");},
+    get command()            { return this._params.command; },
+    get home()               { return (this._params.home.trim().length > 0 ? this._params.home : this._environment.get('HOME')); },
+    get storeDir()           { return (this._params.storeDir.trim().length > 0 ? this._params.storeDir : this._environment.get('PASSWORD_STORE_DIR')); },
+    get storeGit()           { return (this._params.storeGit.trim().length > 0 ? this._params.storeGit : this._environment.get('PASSWORD_STORE_GIT')); },
     get gpgAgentEnv()        { return this._gpgAgentEnv; },
-    get autoFill()           { return this._params.autoFill.value; },
-    get shortcutKey()        { return this._params.shortcutKey.value; },
-    get shortcutMod()        { return this._params.shortcutMod.value; },
+    get autoFill()           { return this._params.autoFill; },
+    get shortcutKey()        { return this._params.shortcutKey; },
+    get shortcutMod()        { return this._params.shortcutMod; },
 
     setGpgAgentEnv : function() {
-        let gpgAgentInfo = this._params.gpgAgentInfo.value;
+        let gpgAgentInfo = this._params.gpgAgentInfo;
         let filename = (gpgAgentInfo.indexOf("/") != 0 ? this.home + "/" : "") + gpgAgentInfo;
         let file = new FileUtils.File(filename);
         console.debug("[PassFF]", "Check Gpg agent file existance : " + filename);

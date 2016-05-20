@@ -54,7 +54,7 @@ function shutdown(aData, aReason) {
     PassFF.uninit();
 }
 
-let PassFF = {
+var PassFF = {
     Ids : {
         panel : "passff-panel",
         button: "passff-button",
@@ -161,14 +161,14 @@ let PassFF = {
             let toggleKeyset = doc.createElementNS(NS_XUL, "keyset");
             toggleKeyset.setAttribute("id", PassFF.Ids.keyset);
             // add hotkey
-            let (toggleKey = doc.createElementNS(NS_XUL, "key")) {
-                toggleKey.setAttribute("id", PassFF.Ids.key);
-                toggleKey.setAttribute("key", PassFF.Preferences.shortcutKey);
-                toggleKey.setAttribute("modifiers", PassFF.Preferences.shortcutMod);
-                toggleKey.setAttribute("oncommand", "void(0);");
-                toggleKey.addEventListener("command", function(event) { event.target.ownerDocument.getElementById(PassFF.Ids.button).click(); }, true);
-                doc.getElementById("mainKeyset").parentNode.appendChild(toggleKeyset).appendChild(toggleKey);
-            }
+            let toggleKey = doc.createElementNS(NS_XUL, "key");
+            toggleKey.setAttribute("id", PassFF.Ids.key);
+            toggleKey.setAttribute("key", PassFF.Preferences.shortcutKey);
+            toggleKey.setAttribute("modifiers", PassFF.Preferences.shortcutMod);
+            toggleKey.setAttribute("oncommand", "void(0);");
+            toggleKey.addEventListener("command", function(event) { event.target.ownerDocument.getElementById(PassFF.Ids.button).click(); }, true);
+            doc.getElementById("mainKeyset").parentNode.appendChild(toggleKeyset).appendChild(toggleKey);
+
 
         },
 
