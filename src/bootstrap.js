@@ -195,7 +195,7 @@ var PassFF = {
         },
 
         onLocationChange: function(aBrowser, aWebProgress, aRequest, aLocation) {
-            console.debug("[PassFF]", "Location changed", aBrowser.ownerGlobal.content.location.href)
+            console.debug("[PassFF]", "Location changed", aBrowser.ownerGlobal.content.location.href);
             PassFF.Menu.createContextualMenu(aBrowser.ownerDocument, aBrowser.ownerGlobal.content.location.href);
         },
 
@@ -226,7 +226,6 @@ var PassFF = {
         tabSelect : function(event) {
             console.debug("[PassFF]", "Tab Selected", event.target);
             PassFF.Menu.createContextualMenu(event.target.ownerDocument, event.target.ownerGlobal.content.location.href);
-            PassFF.Menu.createContextualMenu(event.target.ownerGlobal);
         },
 
         onOpenWindow : function(aXULWindow) {
