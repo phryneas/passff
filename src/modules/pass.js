@@ -137,7 +137,7 @@ PassFF.Pass = {
 
   getUrlMatchingItems : function(url) {
     return this._items.filter(function(item){
-      return !item.isField() && url.search(new RegExp(item.key,"i")) >= 0;
+      return !item.isField() && ( typeof url === "undefined" || url.search(new RegExp(item.key,"i")) >= 0);
     });
   },
 
