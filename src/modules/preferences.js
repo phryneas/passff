@@ -8,6 +8,7 @@ PassFF.Preferences = {
                 .getService(Components.interfaces.nsIEnvironment),
   _gpgAgentEnv: null,
   _params: {
+    logEnabled            : false,
     passwordInputNames    : 'passwd,password,pass',
     loginInputNames       : 'login,user,mail,email,username,opt_login,log,usr_name',
     loginFieldNames       : 'login,user,username,id',
@@ -26,7 +27,6 @@ PassFF.Preferences = {
     autoSubmit            : false,
     shortcutKey           : 'y',
     shortcutMod           : 'control',
-    logEnabled            : false,
     iframeSearchDepth     : 5,
     callType              : 'direct',
     caseInsensitiveSearch : false,
@@ -37,7 +37,6 @@ PassFF.Preferences = {
     let defaultBranch = Services.prefs.getDefaultBranch('extensions.passff.');
     let branch = Services.prefs.getBranch('extensions.passff.');
     for (let [key, val] in Iterator(PassFF.Preferences._params)) {
-    log.error("aaaaa ", key, val)
       switch (typeof val) {
         case 'boolean':
           defaultBranch.setBoolPref(key, val);
@@ -52,6 +51,7 @@ PassFF.Preferences = {
           this._params[key] = branch.getCharPref(key);
           break;
       }
+      log.debug("initializing preference ", key, " default value would be ", val, " setting to ", this._params[key]);
     }
 
     log.info('Preferences initialised', {
@@ -130,7 +130,6 @@ PassFF.Preferences = {
   },
 
   get passwordInputNames() {
-    log.error("aaaaa ")
     return this._params.passwordInputNames.split(',');
   },
 
