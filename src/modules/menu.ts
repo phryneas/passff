@@ -335,7 +335,7 @@ export class Menu {
       }).catch(logAndDisplayError("Error getting matching items on create contextual menu"));
   }
 
-  private static createItemsMenuList(doc: HTMLDocument, items: ItemObject[], cleanMenu: boolean = true) {
+  private static createItemsMenuList(doc: HTMLDocument, items: ItemObject[] = [], cleanMenu: boolean = true) {
     log.debug("Create children menu list", items, cleanMenu);
 
     if (cleanMenu) {
@@ -375,13 +375,13 @@ export class Menu {
     log.debug('Create leaf menu list', item);
     let listElm = doc.getElementById(PassFF.Ids.entrieslist);
 
-    [ ['Menu.fill', Menu.onAutoFillMenuClick],
-      ['Menu.fill_and_submit', Menu.onAutoFillAndSubmitMenuClick],
-      ['Menu.goto_fill_and_submit', Menu.onGotoAutoFillAndSubmitMenuClick],
-      ['Menu.goto', Menu.onGoto],
-      ['Menu.copy_login', Menu.onCopyToClipboard, 'login'],
-      ['Menu.copy_password', Menu.onCopyToClipboard, 'password'],
-      ['Menu.display', Menu.onDisplayItemData]
+    [ ['passff.menu.fill', Menu.onAutoFillMenuClick],
+      ['passff.menu.fill_and_submit', Menu.onAutoFillAndSubmitMenuClick],
+      ['passff.menu.goto_fill_and_submit', Menu.onGotoAutoFillAndSubmitMenuClick],
+      ['passff.menu.goto', Menu.onGoto],
+      ['passff.menu.copy_login', Menu.onCopyToClipboard, 'login'],
+      ['passff.menu.copy_password', Menu.onCopyToClipboard, 'password'],
+      ['passff.menu.display', Menu.onDisplayItemData]
     ].forEach(function(data: [string, any]) {
       let newItem = Menu.createMenuItem(doc, item, PassFF.gsfm(data[0]), data[1],
                                                data.length == 3 ? data[2] : void 0);
